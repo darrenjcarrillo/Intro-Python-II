@@ -1,4 +1,6 @@
 from room import Room
+from player import Player
+
 
 # Declare all the rooms
 
@@ -22,22 +24,24 @@ earlier adventurers. The only exit is to the south."""),
 }
 
 
+
 # Link rooms together
 
-room['outside'].n_to = room['foyer']
-room['foyer'].s_to = room['outside']
-room['foyer'].n_to = room['overlook']
-room['foyer'].e_to = room['narrow']
-room['overlook'].s_to = room['foyer']
-room['narrow'].w_to = room['foyer']
-room['narrow'].n_to = room['treasure']
-room['treasure'].s_to = room['narrow']
+room['outside'].way['n_to'] = room['foyer']
+room['foyer'].way['s_to'] = room['outside']
+room['foyer'].way['n_to'] = room['overlook']
+room['foyer'].way['e_to'] = room['narrow']
+room['overlook'].way['s_to'] = room['foyer']
+room['narrow'].way['w_to'] = room['foyer']
+room['narrow'].way['n_to'] = room['treasure']
+room['treasure'].way['s_to'] = room['narrow']
 
 #
 # Main
 #
 
 # Make a new player object that is currently in the 'outside' room.
+player = Player(room['outside'])
 
 # Write a loop that:
 #
@@ -49,3 +53,13 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+location = input(f'{player.room}\n')
+
+while location != 'q':
+    try:
+        player.room = player.room.way[location]
+        # layer.room = player.room[location]
+        location = input(f'{player.room}\n')
+    except KeyError:
+        location = input(f'You can\'t go there .\n')
