@@ -7,7 +7,7 @@ from player import Player
 
 room = {
     'outside':  Room("Outside Cave Entrance",
-                     "North of you, the cave mount beckons"),
+                     "North of you, the cave mount beckons."),
 
     'foyer':    Room("Foyer", """Dim light filters in from the south. Dusty
 passages run north and east."""),
@@ -20,21 +20,20 @@ the distance, but there is no way across the chasm."""),
 to north. The smell of gold permeates the air."""),
 
     'treasure': Room("Treasure Chamber", """You've found the long-lost treasure
-chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south."""),
+chamber! Rescue the princess and exit to the south."""),
 }
 
 
 # Link rooms together
 
-room['outside'].n_to = room['foyer']
-room['foyer'].s_to = room['outside']
-room['foyer'].n_to = room['overlook']
-room['foyer'].e_to = room['narrow']
-room['overlook'].s_to = room['foyer']
-room['narrow'].w_to = room['foyer']
-room['narrow'].n_to = room['treasure']
-room['treasure'].s_to = room['narrow']
+room['outside'].way['North'] = room['foyer']
+room['foyer'].way['South'] = room['outside']
+room['foyer'].way['North'] = room['overlook']
+room['foyer'].way['East'] = room['narrow']
+room['overlook'].way['South'] = room['foyer']
+room['narrow'].way['West'] = room['foyer']
+room['narrow'].way['North'] = room['treasure']
+room['treasure'].way['South'] = room['narrow']
 
 #
 # Main
@@ -62,4 +61,9 @@ direction = f'Where should we go sir {playerName}? '
 
 location = input(f'{player.room}\n\n{direction}')
 
-while()
+while location != 'q':
+    try:
+        player.room = player.room.way[location.capitalize()]
+        location = input(f'{player.room}\n\n{direction}')
+    except KeyError:
+        location = input(f'You can\'t go there .\n\n{direction}')

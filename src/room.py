@@ -8,4 +8,4 @@ class Room:
         self.way = {}
 
     def __str__(self):
-        return (f'\nYou are currently --> {self.name} sir.\n\n{self.description}\n\n')
+        return (f'\nYou are currently at --> {self.name} sir.\n\nClue: {self.description}\n\nPlease choose which way to go --> ' + ', '.join(list(self.way.keys())))
