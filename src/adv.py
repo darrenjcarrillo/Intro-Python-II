@@ -1,6 +1,9 @@
 from room import Room
+from player import Player
+
 
 # Declare all the rooms
+
 
 room = {
     'outside':  Room("Outside Cave Entrance",
@@ -39,6 +42,13 @@ room['treasure'].s_to = room['narrow']
 
 # Make a new player object that is currently in the 'outside' room.
 
+###### PLAYER NAME #####
+playerName = input(f'What is your name valiant Knight? ')
+
+player = Player(playerName, room["outside"])
+
+direction = f'Where should we go sir {playerName}? '
+
 # Write a loop that:
 #
 # * Prints the current room name
@@ -49,3 +59,7 @@ room['treasure'].s_to = room['narrow']
 # Print an error message if the movement isn't allowed.
 #
 # If the user enters "q", quit the game.
+
+location = input(f'{player.room}\n\n{direction}')
+
+while()
