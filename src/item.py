@@ -1,7 +1,5 @@
-class Item:
-    def __init__(self, name, description):
-        self.name = name
-        self.description = description
+# from room import Room
 
-    def __str__(self):
-        return(f'{self.name} ---> {self.description}')
+class Item:
+    def __init__(self, item_name):
+        self.item_name = item_name

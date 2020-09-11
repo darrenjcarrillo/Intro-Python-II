@@ -1,6 +1,6 @@
 from room import Room
 from player import Player
-
+from item import Item
 
 # Declare all the rooms
 
@@ -35,6 +35,15 @@ room['narrow'].way['West'] = room['foyer']
 room['narrow'].way['North'] = room['treasure']
 room['treasure'].way['South'] = room['narrow']
 
+# room['outside'].n_to = room['foyer']
+# room['foyer'].s_to = room['outside']
+# room['foyer'].n_to = room['overlook']
+# room['foyer'].e_to = room['narrow']
+# room['overlook'].s_to = room['foyer']
+# room['narrow'].w_to = room['foyer']
+# room['narrow'].n_to = room['treasure']
+# room['treasure'].s_to = room['narrow']
+
 #
 # Main
 #
@@ -59,11 +68,33 @@ direction = f'Where should we go sir {playerName}? '
 #
 # If the user enters "q", quit the game.
 
-location = input(f'{player.room}\n\n{direction}')
+
+
+location = input(f'{player.current_room}\n\n{direction}')
+
+
+# player_inventory = [x.name for in player.inventory] if len(player.inventory) else "Storage Empty"
+
+
+# pickItem = input(f'{room.item}')
 
 while location != 'q':
     try:
-        player.room = player.room.way[location.capitalize()]
-        location = input(f'{player.room}\n\n{direction}')
+        player.current_room = player.current_room.way[location.capitalize()]
+        location = input(
+            f'{player.current_room}\n\n{direction}')
+
+        if location == "pick":
+            item_name = [i.name for i in player.current_room.item]
+            item_index = item_name.index(item)
+            player.pick(player.current_room.item[item_index])
+            player.current_room.remove_item(item_index)
+
+        elif location == "drop":
+            item_name = [i.name for i in player.current_room.item]
+            item_index = item_name.index(item)
+            player.current_room.add_item(player.inventory[item_index])
+            player.drop(item_index)
+
     except KeyError:
         location = input(f'You can\'t go there .\n\n{direction}')
